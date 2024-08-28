@@ -1,3 +1,5 @@
+'use server'
+
 import { sql } from '@vercel/postgres';
 import {
   CustomerField,
@@ -212,5 +214,5 @@ export async function fetchFilteredCustomers(query: string) {
 }
 
 
-export const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
-export const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
+// export const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
+// export const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
