@@ -13,7 +13,11 @@ export async function authenticate(
   formData: FormData,
 ) {
   try {
-    await signIn('credentials', formData);
+    console.log('formData: ', formData);
+    let email = formData.get('email');
+    let password = formData.get('password');
+    // https://github.com/vercel/next.js/issues/65936 fix login Response.redirectTo page not change url
+    await signIn('credentials', { redirectTo: '/dashboard', email, password })
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

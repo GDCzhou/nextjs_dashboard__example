@@ -1,7 +1,4 @@
 import type { NextAuthConfig } from 'next-auth';
- 
-
-console.log(process.env.AUTH_SECRET);
 
 
 export const authConfig = {
@@ -9,28 +6,21 @@ export const authConfig = {
     signIn: '/login',
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      console.log({nextUrl});
-      
+    authorized({ auth, request}) {
+      const nextUrl = request.nextUrl
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-      const isOnLogin = nextUrl.pathname.startsWith('/login')
-      const isHome = nextUrl.pathname.endsWith('/')
-      console.log({p :nextUrl.pathname,isLoggedIn,isOnDashboard,isOnLogin,});
       
       if (isOnDashboard) {
-        if (isLoggedIn) return true;
+        if (isLoggedIn) return true
         return false; // Redirect unauthenticated users to login page
-        // return Response.redirect(new URL('/',nextUrl ))
-      } else if (isLoggedIn && !isHome) {
-        // console.log(auth);
-        console.log('重定向到dashboard');
-        
-        
-        return Response.redirect(new URL('/dashboard', nextUrl));
+      } else if (isLoggedIn) {
+        const url = new URL('/dashboard', nextUrl);
+        return Response.redirect(url);
       }
       return true;
     },
+    
   },
   providers: [], // Add providers with an empty array for now
 } satisfies NextAuthConfig;
